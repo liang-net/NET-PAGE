@@ -65,10 +65,12 @@ cd NET-PAGE
 ### 4) 启动
 优先使用 v2：
 ```bash
+docker compose pull
 docker compose up -d --build
 ```
 如系统仅有 v1：
 ```bash
+docker-compose pull
 docker-compose up -d --build
 ```
 
@@ -135,10 +137,12 @@ Edit `docker-compose.yml`:
 ### 4) Start services
 Prefer v2:
 ```bash
+docker compose pull
 docker compose up -d --build
 ```
 If only v1 is available:
 ```bash
+docker-compose pull
 docker-compose up -d --build
 ```
 

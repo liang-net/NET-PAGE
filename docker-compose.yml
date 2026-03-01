@@ -12,14 +12,10 @@ services:
       - ./data:/data
 
   web:
-    image: nginx:1.27-alpine
+    image: ghcr.io/vsss-net/net-page:latest
     container_name: net-page-web
     restart: unless-stopped
     depends_on:
       - admin
     ports:
       - "3838:80"
-    volumes:
-      - ./index.html:/usr/share/nginx/html/index.html:ro
-      - ./data:/usr/share/nginx/html/data:rw
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
