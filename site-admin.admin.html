@@ -168,10 +168,23 @@
     function applyQuickTz(){const v=document.getElementById('timeZoneQuick').value;if(v)document.getElementById('timeZone').value=v;}
     window.applyQuickTz=applyQuickTz;
 
+    function renderStats(stats){
+      document.getElementById('stats').textContent=`访客统计（后台显示）：今日访问：${stats.today} ｜ 累计访问：${stats.total}`;
+    }
+
+    async function refreshStats(){
+      try{
+        const r=await fetch('/api/data',{cache:'no-store'});
+        if(!r.ok) return;
+        const j=await r.json();
+        if(j && j.stats) renderStats(j.stats);
+      }catch(e){}
+    }
+
     async function load(){
-      const j=await (await fetch('/api/data')).json();
+      const j=await (await fetch('/api/data',{cache:'no-store'})).json();
       data=j.data;
-      document.getElementById('stats').textContent=`访客统计（后台显示）：今日访问：${j.stats.today} ｜ 累计访问：${j.stats.total}`;
+      renderStats(j.stats);
       for(const k of ['siteTitle','title','subtitle','sectionTitle1','sectionTitle2','sectionTitle3','about1','about2','about3','projectsTitle','contact','timeZone','backgroundImageUrl']){
         const el=document.getElementById(k); if(el) el.value=data[k]||'';
       }
@@ -182,6 +195,7 @@
       if(data.backgroundImageUrl){ previewBg(); }
     }
     load();
+    setInterval(refreshStats, 10000);
 
     document.getElementById('f').addEventListener('submit',async(e)=>{
       e.preventDefault();
