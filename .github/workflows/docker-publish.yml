@@ -30,26 +30,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push admin image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: docker/admin/Dockerfile
-          push: true
-          tags: |
-            ghcr.io/${{ steps.vars.outputs.owner_lc }}/net-page-admin:latest
-            ghcr.io/${{ steps.vars.outputs.owner_lc }}/net-page-admin:${{ github.sha }}
-
-      - name: Build and push web image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: docker/web/Dockerfile
-          push: true
-          tags: |
-            ghcr.io/${{ steps.vars.outputs.owner_lc }}/net-page-web:latest
-            ghcr.io/${{ steps.vars.outputs.owner_lc }}/net-page-web:${{ github.sha }}
-
       - name: Build and push unified net-page image
         uses: docker/build-push-action@v6
         with:
