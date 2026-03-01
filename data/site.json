@@ -11,10 +11,10 @@
   "sectionTitle3": "如何联系",
   "projects": [
     {
-      "name": "项目A",
-      "desc": "示例项目描述",
-      "status": "进行中",
-      "link": "#"
+      "name": "NET-PAGE",
+      "desc": "Docker 镜像地址 / Docker Image: ghcr.io/vsss-net/net-page:latest",
+      "status": "运行中 / Running",
+      "link": "https://ghcr.io/v2/vsss-net/net-page"
     }
   ],
   "projectsTitle": "项目展示",

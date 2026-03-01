@@ -1,14 +1,14 @@
 from flask import Flask, request, Response, jsonify
-import json, datetime, subprocess, shlex, re, urllib.request, urllib.parse
+import json, datetime, subprocess, shlex, re, urllib.request, urllib.parse, os
 from pathlib import Path
 
 app = Flask(__name__)
-USER='admin'
-PASS='UkSite@2026'
-DATA=Path('/var/www/html/data/site.json')
-STATS=Path('/var/www/html/data/stats.json')
-ADMIN_HTML=Path('/opt/site-admin/admin.html')
-SSL_JSON=Path('/var/www/html/data/ssl.json')
+USER=os.getenv('ADMIN_USER','admin')
+PASS=os.getenv('ADMIN_PASS','change-me-please')
+DATA=Path('/data/site.json')
+STATS=Path('/data/stats.json')
+ADMIN_HTML=Path('/app/admin.html')
+SSL_JSON=Path('/data/ssl.json')
 
 DEFAULT_DATA={
  'siteTitle':'UK服务器主页','title':'你好，欢迎来到 UK 服务器','subtitle':'这是一个中文介绍页模板，风格参考极简个人站。',
@@ -180,4 +180,4 @@ def stats():
     return jsonify({'date':today,'today':s['today'],'total':s['total']})
 
 if __name__=='__main__':
-    ensure_data(); load_ssl(); app.run('127.0.0.1',5005)
+    ensure_data(); load_ssl(); app.run('0.0.0.0',5005)
