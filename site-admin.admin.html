@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>站点后台</title>
+  <style>
+    *{box-sizing:border-box}
+    body{font-family:Arial,"Microsoft YaHei";max-width:1040px;margin:24px auto;padding:0 14px;background:#f6f8fc;color:#1a2340}
+    h2{margin:0 0 10px}
+
+    .box{border:1px solid #d7dfff;border-radius:12px;padding:14px;margin:14px 0;background:#fff}
+    .box > strong{display:block;margin-bottom:10px}
+
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .grid1{display:grid;grid-template-columns:1fr;gap:12px}
+    .field{display:flex;flex-direction:column;gap:6px;min-width:0}
+
+    label{font-size:14px;font-weight:600;line-height:1.2}
+    input,textarea,select{width:100%;padding:10px 12px;border:1px solid #cfd8ee;border-radius:8px;background:#fff;font-size:14px;line-height:1.4}
+    textarea{min-height:96px;resize:vertical}
+
+    .row-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+    button{margin:0;padding:10px 14px;border:1px solid #ccd5ea;border-radius:8px;background:#f7faff;cursor:pointer;font-size:14px;line-height:1}
+    button:hover{background:#eef4ff}
+
+    .hint{color:#5f6f9a;font-size:12px}
+    .ok{color:#1f8b4d;min-height:20px}
+
+    .proj{border:1px solid #d7dfff;border-radius:10px;padding:10px;background:#fafcff}
+    .proj + .proj{margin-top:10px}
+
+    #stats{background:#f5f7ff;border:1px solid #d7dfff;padding:10px 12px;border-radius:8px}
+    #sslLog{white-space:pre-wrap;background:#0f172a;color:#dbe7ff;padding:10px;border-radius:10px;min-height:90px;overflow:auto}
+
+    @media (max-width:820px){.grid2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <h2>站点后台</h2>
+  <p id="stats">访客统计加载中...</p>
+  <p class="ok" id="ok"></p>
+
+  <form id="f">
+    <div class="box">
+      <strong>内容编辑</strong>
+
+      <div class="grid2">
+        <div class="field"><label>页面标题（浏览器标题）</label><input id="siteTitle" /></div>
+        <div class="field"><label>主标题</label><input id="title" /></div>
+      </div>
+
+      <div class="grid1">
+        <div class="field"><label>副标题</label><textarea id="subtitle"></textarea></div>
+      </div>
+
+      <div class="grid1">
+        <div class="field"><label>背景图链接（支持 API 图片地址）</label><input id="backgroundImageUrl" placeholder="例如 https://example.com/bg.jpg 或 API 图片URL"><div class="hint">填写后将固定使用该背景图，不再进行昼夜背景切换；留空则使用昼夜主题背景。</div>
+          <div class="row-actions" style="margin-top:8px">
+            <button type="button" onclick="previewBg()">预览背景图</button>
+            <button type="button" onclick="resetBg()">恢复默认背景</button>
+          </div>
+          <div id="bgPreview" style="margin-top:8px;height:120px;border:1px dashed #cdd8f0;border-radius:10px;background:#f3f6ff center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#6b7aa6;font-size:12px">未预览</div></div>
+      </div>
+
+      <div class="grid2">
+        <div class="field"><label>模块名称1</label><input id="sectionTitle1" /></div>
+        <div class="field"><label>模块名称2</label><input id="sectionTitle2" /></div>
+      </div>
+
+      <div class="grid2">
+        <div class="field"><label>内容1</label><textarea id="about1"></textarea></div>
+        <div class="field"><label>内容2</label><textarea id="about2"></textarea></div>
+      </div>
+
+      <div class="grid1">
+        <div class="field"><label>模块名称3</label><input id="sectionTitle3" /></div>
+        <div class="field"><label>内容3</label><textarea id="about3"></textarea></div>
+      </div>
+
+      <div class="grid2">
+        <div class="field"><label>项目展示标题</label><input id="projectsTitle" /></div>
+        <div class="field">
+          <label>时区（IANA）</label>
+          <select id="timeZoneQuick" onchange="applyQuickTz()">
+            <option value="">常用时区快捷选择</option>
+            <option value="Asia/Shanghai">中国（上海） Asia/Shanghai</option>
+            <option value="Asia/Tokyo">日本（东京） Asia/Tokyo</option>
+            <option value="Asia/Singapore">新加坡 Asia/Singapore</option>
+            <option value="Asia/Hong_Kong">中国香港 Asia/Hong_Kong</option>
+            <option value="Europe/London">英国（伦敦） Europe/London</option>
+            <option value="Europe/Berlin">德国（柏林） Europe/Berlin</option>
+            <option value="America/New_York">美国东部 New York</option>
+            <option value="America/Los_Angeles">美国西部 Los Angeles</option>
+            <option value="UTC">UTC</option>
+          </select>
+          <input id="timeZone" placeholder="或手动输入，如 Asia/Shanghai" />
+          <div class="hint">优先使用下拉快捷项，也可以手填标准 IANA 时区。</div>
+        </div>
+      </div>
+
+      <div class="grid1">
+        <div class="field"><label>项目展示（可视化编辑）</label><div id="projectRows"></div></div>
+      </div>
+      <div class="row-actions"><button type="button" onclick="addProjectRow()">+ 新增项目</button></div>
+
+      <div class="grid1">
+        <div class="field"><label>底部联系</label><input id="contact" /></div>
+      </div>
+
+      <div class="row-actions"><button type="submit">保存内容</button></div>
+    </div>
+  </form>
+
+  <div class="box">
+    <strong>网址绑定与证书管理（Cloudflare DNS）</strong>
+    <div class="grid2">
+      <div class="field"><label>绑定域名</label><input id="bindDomain" placeholder="例如 home.vssio.de" /></div>
+      <div class="field"><label>Cloudflare Zone ID</label><input id="cfZoneId" placeholder="例如 a71d..." /></div>
+    </div>
+    <div class="grid1">
+      <div class="field"><label>Cloudflare API Token</label><input id="cfToken" placeholder="可留空表示不改" /></div>
+    </div>
+    <div class="row-actions">
+      <button type="button" onclick="saveSslConfig()">保存绑定配置</button>
+      <button type="button" onclick="issueCert()">申请/重签证书</button>
+      <button type="button" onclick="applyDomain()">应用网址绑定(Nginx)</button>
+      <button type="button" onclick="checkCert()">查看证书状态</button>
+    </div>
+    <p class="hint">流程建议：先保存配置 → 申请证书 → 应用网址绑定。日志在下方。</p>
+    <pre id="sslLog"></pre>
+  </div>
+
+  <script>
+    let data={};
+    function rowTpl(p={name:'',desc:'',status:'',link:''}){
+      return `<div class='proj'>
+        <div class='grid2'>
+          <div class='field'><label>项目名</label><input class='p-name' value='${p.name||''}'></div>
+          <div class='field'><label>状态</label><input class='p-status' value='${p.status||''}'></div>
+        </div>
+        <div class='grid1'><div class='field'><label>项目描述</label><textarea class='p-desc' style='min-height:70px'>${p.desc||''}</textarea></div></div>
+        <div class='grid1'><div class='field'><label>链接</label><input class='p-link' value='${p.link||''}' placeholder='https://...'></div></div>
+        <div class='row-actions'><button type='button' onclick='this.closest(".proj").remove()'>删除</button></div>
+      </div>`;
+    }
+    function addProjectRow(p){document.getElementById('projectRows').insertAdjacentHTML('beforeend',rowTpl(p));}
+    window.addProjectRow=addProjectRow;
+    function log(t){document.getElementById('sslLog').textContent=t||'';}
+    function applyQuickTz(){const v=document.getElementById('timeZoneQuick').value;if(v)document.getElementById('timeZone').value=v;}
+    window.applyQuickTz=applyQuickTz;
+
+    async function load(){
+      const j=await (await fetch('/api/data')).json();
+      data=j.data;
+      document.getElementById('stats').textContent=`访客统计（后台显示）：今日访问：${j.stats.today} ｜ 累计访问：${j.stats.total}`;
+      for(const k of ['siteTitle','title','subtitle','sectionTitle1','sectionTitle2','sectionTitle3','about1','about2','about3','projectsTitle','contact','timeZone','backgroundImageUrl']){
+        const el=document.getElementById(k); if(el) el.value=data[k]||'';
+      }
+      (data.projects||[]).forEach(addProjectRow); if((data.projects||[]).length===0) addProjectRow();
+      document.getElementById('bindDomain').value=j.ssl?.domain||'';
+      document.getElementById('cfZoneId').value=j.ssl?.cfZoneId||'';
+      if(data.timeZone) document.getElementById('timeZoneQuick').value=data.timeZone;
+      if(data.backgroundImageUrl){ previewBg(); }
+    }
+    load();
+
+    document.getElementById('f').addEventListener('submit',async(e)=>{
+      e.preventDefault();
+      const payload={};
+      for(const k of ['siteTitle','title','subtitle','sectionTitle1','sectionTitle2','sectionTitle3','about1','about2','about3','projectsTitle','contact','timeZone','backgroundImageUrl']){
+        payload[k]=document.getElementById(k).value.trim();
+      }
+      payload.projects=[...document.querySelectorAll('.proj')].map(r=>({
+        name:r.querySelector('.p-name').value.trim(),
+        status:r.querySelector('.p-status').value.trim(),
+        desc:r.querySelector('.p-desc').value.trim(),
+        link:r.querySelector('.p-link').value.trim()
+      })).filter(x=>x.name||x.status||x.desc||x.link);
+      const res=await fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      document.getElementById('ok').textContent=res.ok?'保存成功 ✅':'保存失败';
+    });
+
+    
+    function previewBg(){
+      const v=(document.getElementById('backgroundImageUrl').value||'').trim();
+      const box=document.getElementById('bgPreview');
+      if(!v){ box.style.backgroundImage='none'; box.textContent='未预览'; return; }
+      box.style.backgroundImage=`url(${v})`;
+      box.textContent='';
+    }
+    function resetBg(){
+      document.getElementById('backgroundImageUrl').value='';
+      const box=document.getElementById('bgPreview');
+      box.style.backgroundImage='none';
+      box.textContent='未预览';
+    }
+    window.previewBg=previewBg;
+    window.resetBg=resetBg;
+
+    async function saveSslConfig(){
+      const payload={ssl:{domain:document.getElementById('bindDomain').value.trim(),cfZoneId:document.getElementById('cfZoneId').value.trim(),cfToken:document.getElementById('cfToken').value.trim()}};
+      const r=await fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      log(r.ok?'绑定配置已保存 ✅':'绑定配置保存失败');
+    }
+    async function issueCert(){log('正在申请证书，请稍候...');const r=await fetch('/api/cert/issue',{method:'POST'});const j=await r.json();log((j.ok?'证书申请成功 ✅':'证书申请失败 ❌')+'\n\n'+(j.log||j.error||''));}
+    async function applyDomain(){log('正在应用Nginx绑定...');const r=await fetch('/api/domain/apply',{method:'POST'});const j=await r.json();log((j.ok?'网址绑定成功 ✅':'网址绑定失败 ❌')+'\n\n'+(j.out||'')+'\n'+(j.err||j.error||''));}
+    async function checkCert(){const r=await fetch('/api/cert/status');const j=await r.json();log(j.ok?('证书状态 ✅\n\n'+j.info):('证书状态异常 ❌\n\n'+(j.error||j.info||'')));}
+    window.saveSslConfig=saveSslConfig;window.issueCert=issueCert;window.applyDomain=applyDomain;window.checkCert=checkCert;
+  </script>
+</body>
+</html>

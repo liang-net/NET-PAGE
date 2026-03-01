@@ -1,16 +1,22 @@
 {
-  "siteTitle": "UK服务器主页",
-  "title": "你好，欢迎来到 UK 服务器",
+  "title": "你好，欢迎来到我的网络个人主页",
   "subtitle": "这是一个中文介绍页模板，风格参考极简个人站。",
-  "sectionTitle1": "我是谁",
-  "sectionTitle2": "我在做什么",
-  "sectionTitle3": "如何联系",
   "about1": "一名专注于自动化和运维实践的创作者，喜欢把复杂问题做成简单可复用的流程。",
   "about2": "服务器管理、部署优化、工作流自动化，以及面向中文用户的实用技术内容。",
   "about3": "可以在此处放 Telegram、邮箱、GitHub、博客等入口，统一对外展示。",
-  "projectsTitle": "项目展示",
   "contact": "邮箱：hello@example.com",
+  "siteTitle": "网络个人主页",
+  "sectionTitle1": "我是谁",
+  "sectionTitle2": "我在做什么",
+  "sectionTitle3": "如何联系",
   "projects": [
-    {"name": "项目A", "desc": "示例项目描述", "status": "进行中", "link": "#"}
-  ]
+    {
+      "name": "项目A",
+      "desc": "示例项目描述",
+      "status": "进行中",
+      "link": "#"
+    }
+  ],
+  "projectsTitle": "项目展示",
+  "timeZone": "Asia/Shanghai"
 }
