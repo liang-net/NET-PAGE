@@ -16,6 +16,14 @@ Lightweight personal homepage (static site + admin backend), Docker edition.
 
 - `ghcr.io/vsss-net/net-page:latest`
 
+## Docker Orchestration / Docker 编排方式
+
+- 当前项目采用 **Docker Compose 编排**（单机编排）
+- Compose file: `docker-compose.yml`
+- 启动方式：
+  - v2: `docker compose up -d --build`
+  - v1: `docker-compose up -d --build`
+
 ## Default Port / 默认端口
 
 - `3838` (host) -> `80` (container)
