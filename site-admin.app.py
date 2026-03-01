@@ -12,7 +12,7 @@ ADMIN_HTML=Path('/app/admin.html')
 SSL_JSON=Path('/data/ssl.json')
 
 DEFAULT_DATA={
- 'siteTitle':'UK服务器主页','title':'你好，欢迎来到 UK 服务器','subtitle':'这是一个中文介绍页模板，风格参考极简个人站。',
+ 'siteTitle':'NET-PAGE','title':'欢迎来到 NET-PAGE','subtitle':'轻量、可自托管的个人主页模板（Docker Edition）。',
  'sectionTitle1':'我是谁','sectionTitle2':'我在做什么','sectionTitle3':'如何联系',
  'about1':'一名专注于自动化和运维实践的创作者，喜欢把复杂问题做成简单可复用的流程。',
  'about2':'服务器管理、部署优化、工作流自动化，以及面向中文用户的实用技术内容。',
