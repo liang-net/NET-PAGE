@@ -1,6 +1,5 @@
 # NET-PAGE
 
-![NET-PAGE Preview](assets/preview.png)
 
 轻量网络主页（静态页 + 管理后台），Docker 发布版。  
 Lightweight personal homepage (static site + admin backend), Docker edition.
