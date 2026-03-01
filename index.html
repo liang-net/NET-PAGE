@@ -1,0 +1,28 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title id="pageTitle">主页</title>
+<style>
+:root{--bg:#0b1020;--bg2:#131c3a;--line:#2a3768;--text:#eaf0ff;--muted:#a9b4d0;--card:#141c38;--glow:#6fa3ff55}
+body.day{--bg:#edf4ff;--bg2:#dbe9ff;--line:#b8ccef;--text:#14233f;--muted:#486088;--card:#f7fbff;--glow:#89b8ff66}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:radial-gradient(900px 500px at 20% -10%,var(--bg2),transparent 60%),radial-gradient(900px 500px at 110% 10%,var(--bg2),transparent 60%),var(--bg)}
+.wrap{max-width:980px;margin:0 auto;padding:56px 20px}.hero,.card,.panel{background:linear-gradient(180deg,color-mix(in oklab,var(--card),#fff 3%),var(--card));border:1px solid var(--line);border-radius:18px;position:relative;overflow:hidden}.hero::after,.panel::after{content:"";position:absolute;inset:-120px -120px auto auto;width:260px;height:260px;background:radial-gradient(circle,var(--glow),transparent 65%)}
+.hero{padding:34px}.hero h1{margin:0 0 10px;font-size:40px}.muted{color:var(--muted)}
+.lang{display:flex;gap:8px;justify-content:flex-end;margin-bottom:8px}.lang button{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:6px 10px;cursor:pointer}
+.status-grid,.grid,.projects{display:grid;gap:14px;margin-top:18px}.status-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.projects{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.panel,.card{padding:14px}.label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}.icon{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:color-mix(in oklab,var(--card),#000 6%);border:1px solid var(--line)}
+.value{margin-top:8px;font-size:19px;font-weight:600}.clock-flip{display:flex;gap:6px;align-items:center}.digit{width:22px;height:30px;border-radius:6px;border:1px solid var(--line);display:grid;place-items:center;background:color-mix(in oklab,var(--card),#000 8%)}.digit span{font-size:18px;transition:.35s}.digit.flip span{transform:translateY(-120%);opacity:0}.colon{font-size:20px;opacity:.8}
+.section-title{margin-top:24px;font-size:22px}.proj{border:1px solid var(--line);border-radius:14px;padding:14px;background:linear-gradient(180deg,color-mix(in oklab,var(--card),#fff 2%),var(--card))}.badge{display:inline-block;padding:2px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px}
+.foot,.visitor-foot{color:var(--muted)}.visitor-foot{margin-top:14px;text-align:center;background:color-mix(in oklab,var(--card),#000 4%);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+</style></head><body>
+<main class="wrap">
+<div class="lang"><button onclick="setLang('zh')">中文</button><button onclick="setLang('en')">English</button></div>
+<section class="hero"><h1 id="title"></h1><p id="subtitle" class="muted"></p>
+<div class="status-grid">
+<div class="panel"><div class="label"><span class="icon">📅</span><span data-i18n="date">当前日期</span></div><div id="dateNow" class="value">-</div></div>
+<div class="panel"><div class="label"><span class="icon">⏱️</span><span data-i18n="time">实时时间</span></div><div class="value"><div class="clock-flip" id="clockFlip"></div></div><div class="muted" data-i18n="timeSub">上海时区 · 24小时制 · 秒级刷新</div></div>
+<div class="panel"><div class="label"><span class="icon" id="weatherIcon">🌤️</span><span data-i18n="weather">本地天气</span></div><div id="weather" class="value">加载中...</div></div>
+</div></section>
+<section class="grid"><article class="card"><h3 id="sectionTitle1">我是谁</h3><p id="about1" class="muted"></p></article><article class="card"><h3 id="sectionTitle2">我在做什么</h3><p id="about2" class="muted"></p></article><article class="card"><h3 id="sectionTitle3">如何联系</h3><p id="about3" class="muted"></p></article></section>
+<h3 class="section-title" id="projectsTitle">项目展示</h3><section class="projects" id="projectList"></section>
+<div id="contact" class="foot"></div><div class="visitor-foot" id="visitorFoot">访客 IP 与地址：加载中...</div>
+</main>
+<script src="/app.js"></script>
+</body></html>
