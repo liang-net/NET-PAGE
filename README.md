@@ -2,6 +2,12 @@
 
 A lightweight bilingual (中文 / English) personal landing page template.
 
+## Docker Image / 镜像地址
+
+- `ghcr.io/vsss-net/net-page:latest`
+
+---
+
 ## Features / 功能
 
 - Language switch (ZH/EN) / 中英切换
@@ -20,17 +26,29 @@ A lightweight bilingual (中文 / English) personal landing page template.
 - Docker 24+
 - Docker Compose v2+
 
-### 2) Run / 启动
+### 2) Run with image / 使用镜像启动（默认端口 3838）
+
+```bash
+docker run -d \
+  --name net-page \
+  -p 3838:80 \
+  --restart unless-stopped \
+  ghcr.io/vsss-net/net-page:latest
+```
+
+访问 / Access:
+- <http://localhost:3838>
+
+### 3) Run with Compose / 使用 Compose 启动（默认端口 3838）
 
 ```bash
 git clone https://github.com/vsss-net/NET-PAGE.git
 cd NET-PAGE
-docker compose up -d --build
+docker compose up -d
 ```
 
-### 3) Access / 访问
-
-- <http://localhost:8080>
+访问 / Access:
+- <http://localhost:3838>
 
 ### 4) Stop / 停止
 
@@ -38,10 +56,13 @@ docker compose up -d --build
 docker compose down
 ```
 
-### 5) Rebuild after changes / 修改后重建
+---
+
+## Build locally / 本地构建镜像
 
 ```bash
-docker compose up -d --build
+docker build -t net-page:local .
+docker run -d --name net-page-local -p 3838:80 net-page:local
 ```
 
 ---
@@ -54,11 +75,11 @@ Use any static web server.
 
 ```bash
 cd NET-PAGE
-python3 -m http.server 8080
+python3 -m http.server 3838
 ```
 
-Open:
-- <http://localhost:8080>
+Open / 访问:
+- <http://localhost:3838>
 
 ---
 

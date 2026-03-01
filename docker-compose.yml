@@ -1,7 +1,7 @@
 services:
   net-page:
-    build: .
+    image: ghcr.io/vsss-net/net-page:latest
     container_name: net-page
     ports:
-      - "8080:80"
+      - "3838:80"
     restart: unless-stopped
