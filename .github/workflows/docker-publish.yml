@@ -49,3 +49,13 @@ jobs:
           tags: |
             ghcr.io/${{ steps.vars.outputs.owner_lc }}/net-page-web:latest
             ghcr.io/${{ steps.vars.outputs.owner_lc }}/net-page-web:${{ github.sha }}
+
+      - name: Build and push unified net-page image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/web/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.vars.outputs.owner_lc }}/net-page:latest
+            ghcr.io/${{ steps.vars.outputs.owner_lc }}/net-page:${{ github.sha }}
