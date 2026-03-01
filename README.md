@@ -14,6 +14,16 @@ Lightweight personal homepage (static site + admin backend), Docker edition.
 > 首次登录后请立即在后台「账号与密码」模块修改默认凭据。  
 > Please change default credentials immediately after first login.
 
+## Project Preview / 项目预览
+
+### Home / 前台
+
+![NET-PAGE Home](assets/preview-home.jpg)
+
+### Admin / 后台
+
+![NET-PAGE Admin](assets/preview-admin.jpg)
+
 ## Docker Image / 镜像地址
 
 - `ghcr.io/vsss-net/net-page:latest`
