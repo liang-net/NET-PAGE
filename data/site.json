@@ -12,7 +12,7 @@
   "projects": [
     {
       "name": "NET-PAGE",
-      "desc": "Docker 镜像地址 / Docker Image: ghcr.io/vsss-net/net-page:latest",
+      "desc": "Docker 镜像地址 / Docker Image: ghcr.io/liang-net/net-page:latest",
       "status": "运行中 / Running",
       "link": "https://github.com/vsss-net/NET-PAGE"
     }

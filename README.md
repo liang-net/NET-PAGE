@@ -25,7 +25,7 @@ Lightweight personal homepage (static site + admin backend), Docker edition.
 
 ## Docker Image / 镜像地址
 
-- `ghcr.io/vsss-net/net-page:latest`
+- `ghcr.io/liang-net/net-page:latest`
 
 ## Docker Orchestration / Docker 编排方式
 
