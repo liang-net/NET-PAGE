@@ -12,7 +12,7 @@ services:
       - ./data:/data
 
   web:
-    image: ghcr.io/vsss-net/net-page:latest
+    image: ghcr.io/liang-net/net-page:latest
     container_name: net-page-web
     restart: unless-stopped
     depends_on:

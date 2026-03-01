@@ -64,7 +64,7 @@ docker-compose --version || true
 
 ### 2) 获取项目
 ```bash
-git clone https://github.com/vsss-net/NET-PAGE.git
+git clone https://github.com/liang-net/NET-PAGE.git
 cd NET-PAGE
 ```
 
@@ -136,7 +136,7 @@ docker-compose --version || true
 
 ### 2) Clone repository
 ```bash
-git clone https://github.com/vsss-net/NET-PAGE.git
+git clone https://github.com/liang-net/NET-PAGE.git
 cd NET-PAGE
 ```
 
