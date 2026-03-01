@@ -1,22 +1,23 @@
 {
-  "title": "你好，欢迎来到我的网络个人主页",
-  "subtitle": "这是一个中文介绍页模板，风格参考极简个人站。",
-  "about1": "一名专注于自动化和运维实践的创作者，喜欢把复杂问题做成简单可复用的流程。",
-  "about2": "服务器管理、部署优化、工作流自动化，以及面向中文用户的实用技术内容。",
-  "about3": "可以在此处放 Telegram、邮箱、GitHub、博客等入口，统一对外展示。",
-  "contact": "邮箱：hello@example.com",
-  "siteTitle": "网络个人主页",
+  "siteTitle": "NET-PAGE",
+  "title": "欢迎来到 NET-PAGE",
+  "subtitle": "轻量、可自托管的个人主页模板（Docker Edition）。",
   "sectionTitle1": "我是谁",
   "sectionTitle2": "我在做什么",
   "sectionTitle3": "如何联系",
+  "about1": "这里可以填写个人简介，例如技术方向、职业身份或兴趣领域。",
+  "about2": "这里可以填写当前项目、服务内容或正在进行的工作。",
+  "about3": "这里可以填写联系方式，例如邮箱、Telegram、GitHub、博客等。",
+  "projectsTitle": "项目展示",
   "projects": [
     {
       "name": "NET-PAGE",
       "desc": "Docker 镜像地址 / Docker Image: ghcr.io/vsss-net/net-page:latest",
       "status": "运行中 / Running",
-      "link": "https://ghcr.io/v2/vsss-net/net-page"
+      "link": "https://github.com/vsss-net/NET-PAGE"
     }
   ],
-  "projectsTitle": "项目展示",
-  "timeZone": "Asia/Shanghai"
+  "contact": "Email: hello@example.com",
+  "timeZone": "Asia/Shanghai",
+  "backgroundImageUrl": ""
 }
