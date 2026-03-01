@@ -8,7 +8,7 @@ body.day{--bg:#edf4ff;--bg2:#dbe9ff;--line:#b8ccef;--text:#14233f;--muted:#48608
 .lang{display:flex;gap:8px;justify-content:flex-end;margin-bottom:8px}.lang button{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:6px 10px;cursor:pointer}
 .status-grid,.grid,.projects{display:grid;gap:14px;margin-top:18px}.status-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.projects{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 .panel,.card{padding:14px}.label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}.icon{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:color-mix(in oklab,var(--card),#000 6%);border:1px solid var(--line)}
-.value{margin-top:8px;font-size:19px;font-weight:600}.clock-flip{display:flex;gap:6px;align-items:center}.digit{width:22px;height:30px;border-radius:6px;border:1px solid var(--line);display:grid;place-items:center;background:color-mix(in oklab,var(--card),#000 8%)}.digit span{font-size:18px;transition:.35s}.digit.flip span{transform:translateY(-120%);opacity:0}.colon{font-size:20px;opacity:.8}
+.value{margin-top:8px;font-size:19px;font-weight:600}
 .section-title{margin-top:24px;font-size:22px}.proj{border:1px solid var(--line);border-radius:14px;padding:14px;background:linear-gradient(180deg,color-mix(in oklab,var(--card),#fff 2%),var(--card))}.badge{display:inline-block;padding:2px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px}
 .foot,.visitor-foot{color:var(--muted)}.visitor-foot{margin-top:14px;text-align:center;background:color-mix(in oklab,var(--card),#000 4%);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
 </style></head><body>
@@ -17,7 +17,7 @@ body.day{--bg:#edf4ff;--bg2:#dbe9ff;--line:#b8ccef;--text:#14233f;--muted:#48608
 <section class="hero"><h1 id="title"></h1><p id="subtitle" class="muted"></p>
 <div class="status-grid">
 <div class="panel"><div class="label"><span class="icon">📅</span><span data-i18n="date">当前日期</span></div><div id="dateNow" class="value">-</div></div>
-<div class="panel"><div class="label"><span class="icon">⏱️</span><span data-i18n="time">实时时间</span></div><div class="value"><div class="clock-flip" id="clockFlip"></div></div><div class="muted" data-i18n="timeSub">上海时区 · 24小时制</div></div>
+<div class="panel"><div class="label"><span class="icon">⏱️</span><span data-i18n="time">实时时间</span></div><div class="value" id="clockNow">--:--:--</div><div class="muted" data-i18n="timeSub">上海时区 · 24小时制</div></div>
 <div class="panel"><div class="label"><span class="icon" id="weatherIcon">🌤️</span><span data-i18n="weather">本地天气</span></div><div id="weather" class="value">加载中...</div></div>
 </div></section>
 <section class="grid"><article class="card"><h3 id="sectionTitle1">我是谁</h3><p id="about1" class="muted"></p></article><article class="card"><h3 id="sectionTitle2">我在做什么</h3><p id="about2" class="muted"></p></article><article class="card"><h3 id="sectionTitle3">如何联系</h3><p id="about3" class="muted"></p></article></section>
@@ -68,8 +68,7 @@ fetch('/data/site.json?t='+Date.now()).then(r=>r.json()).then(d=>{
 });
 
 function setThemeByTZ(){ document.body.classList.remove('day'); }
-function renderFlipClock(t){const target=document.getElementById('clockFlip');if(!target.dataset.init){target.innerHTML='';for(const ch of t){if(ch===':'){const c=document.createElement('div');c.className='colon';c.textContent=':';target.appendChild(c);}else{const d=document.createElement('div');d.className='digit';d.innerHTML='<span>'+ch+'</span>';target.appendChild(d);}}target.dataset.init='1';return;}const digits=[...target.querySelectorAll('.digit')];let i2=0;for(const ch of t){if(ch===':')continue;const cell=digits[i2++],sp=cell.querySelector('span');if(sp.textContent!==ch){cell.classList.add('flip');setTimeout(()=>{sp.textContent=ch;cell.classList.remove('flip');},170);}}}
-function tick(){const n=new Date();document.getElementById('dateNow').textContent=n.toLocaleDateString(lang==='zh'?'zh-CN':'en-US',{timeZone:currentTz,year:'numeric',month:'2-digit',day:'2-digit',weekday:'long'});renderFlipClock(n.toLocaleTimeString(lang==='zh'?'zh-CN':'en-US',{timeZone:currentTz,hour12:false}));setThemeByTZ();}
+function tick(){const n=new Date();document.getElementById('dateNow').textContent=n.toLocaleDateString(lang==='zh'?'zh-CN':'en-US',{timeZone:currentTz,year:'numeric',month:'2-digit',day:'2-digit',weekday:'long'});document.getElementById('clockNow').textContent=n.toLocaleTimeString(lang==='zh'?'zh-CN':'en-US',{timeZone:currentTz,hour12:false});setThemeByTZ();}
 tick();setInterval(tick,1000);
 
 
