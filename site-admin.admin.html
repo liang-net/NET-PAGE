@@ -112,6 +112,24 @@
     </div>
   </form>
 
+
+
+  <div class="box">
+    <strong>账号与密码</strong>
+    <div class="grid2">
+      <div class="field"><label>新账号</label><input id="newUsername" placeholder="至少3位" /></div>
+      <div class="field"><label>当前密码</label><input id="currentPassword" type="password" placeholder="请输入当前密码" /></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>新密码</label><input id="newPassword" type="password" placeholder="至少8位" /></div>
+      <div class="field"><label>确认新密码</label><input id="confirmPassword" type="password" placeholder="再次输入新密码" /></div>
+    </div>
+    <div class="row-actions">
+      <button type="button" onclick="changeAuth()">修改账号密码</button>
+    </div>
+    <p class="hint">修改成功后，下次登录请使用新账号与新密码。</p>
+  </div>
+
   <div class="box">
     <strong>网址绑定与证书管理（Cloudflare DNS）</strong>
     <div class="grid2">
@@ -206,6 +224,28 @@
     async function issueCert(){log('正在申请证书，请稍候...');const r=await fetch('/api/cert/issue',{method:'POST'});const j=await r.json();log((j.ok?'证书申请成功 ✅':'证书申请失败 ❌')+'\n\n'+(j.log||j.error||''));}
     async function applyDomain(){log('正在应用Nginx绑定...');const r=await fetch('/api/domain/apply',{method:'POST'});const j=await r.json();log((j.ok?'网址绑定成功 ✅':'网址绑定失败 ❌')+'\n\n'+(j.out||'')+'\n'+(j.err||j.error||''));}
     async function checkCert(){const r=await fetch('/api/cert/status');const j=await r.json();log(j.ok?('证书状态 ✅\n\n'+j.info):('证书状态异常 ❌\n\n'+(j.error||j.info||'')));}
+    
+    async function changeAuth(){
+      const newUsername=document.getElementById('newUsername').value.trim();
+      const currentPassword=document.getElementById('currentPassword').value;
+      const newPassword=document.getElementById('newPassword').value;
+      const confirmPassword=document.getElementById('confirmPassword').value;
+      if(!newUsername || newUsername.length<3){ log('新账号至少 3 位'); return; }
+      if(!newPassword || newPassword.length<8){ log('新密码至少 8 位'); return; }
+      if(newPassword!==confirmPassword){ log('两次输入的新密码不一致'); return; }
+      const r=await fetch('/api/auth/change',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({newUsername,currentPassword,newPassword})});
+      const j=await r.json().catch(()=>({ok:false,error:'请求失败'}));
+      if(j.ok){
+        log('账号密码已更新 ✅（请使用新凭据重新登录）');
+        document.getElementById('currentPassword').value='';
+        document.getElementById('newPassword').value='';
+        document.getElementById('confirmPassword').value='';
+      }else{
+        log('更新失败 ❌\n'+(j.error||''));
+      }
+    }
+
+    window.changeAuth=changeAuth;
     window.saveSslConfig=saveSslConfig;window.issueCert=issueCert;window.applyDomain=applyDomain;window.checkCert=checkCert;
   </script>
 </body>

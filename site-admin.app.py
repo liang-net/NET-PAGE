@@ -5,6 +5,7 @@ from pathlib import Path
 app = Flask(__name__)
 USER=os.getenv('ADMIN_USER','admin')
 PASS=os.getenv('ADMIN_PASS','change-me-please')
+AUTH_JSON=Path('/data/auth.json')
 DATA=Path('/data/site.json')
 STATS=Path('/data/stats.json')
 ADMIN_HTML=Path('/app/admin.html')
@@ -24,6 +25,26 @@ DEFAULT_SSL={'domain':'','cfToken':'','cfZoneId':'','enabled':False}
 def run(cmd):
     p=subprocess.run(cmd,shell=True,text=True,capture_output=True)
     return p.returncode,p.stdout.strip(),p.stderr.strip()
+
+
+def load_auth():
+    global USER, PASS
+    if not AUTH_JSON.exists():
+        AUTH_JSON.parent.mkdir(parents=True, exist_ok=True)
+        AUTH_JSON.write_text(json.dumps({'user':USER,'pass':PASS},ensure_ascii=False,indent=2),encoding='utf-8')
+        return
+    try:
+        a=json.loads(AUTH_JSON.read_text(encoding='utf-8'))
+        USER=a.get('user') or USER
+        PASS=a.get('pass') or PASS
+    except Exception:
+        pass
+
+def save_auth(user, pwd):
+    global USER, PASS
+    USER=user
+    PASS=pwd
+    AUTH_JSON.write_text(json.dumps({'user':USER,'pass':PASS},ensure_ascii=False,indent=2),encoding='utf-8')
 
 def ensure_data():
     if not DATA.exists():
@@ -123,6 +144,27 @@ def api_cert_status():
     return jsonify({'ok':rc==0,'exists':True,'info':out if rc==0 else err})
 
 
+
+
+@app.route('/api/auth/change', methods=['POST'])
+def api_auth_change():
+    if not check(request.authorization):
+        return need_auth()
+    payload=request.get_json(silent=True) or {}
+    current=payload.get('currentPassword','')
+    new_user=(payload.get('newUsername','') or '').strip()
+    new_pass=payload.get('newPassword','') or ''
+
+    if current != PASS:
+        return jsonify({'ok':False,'error':'当前密码不正确'})
+    if not new_user or len(new_user) < 3:
+        return jsonify({'ok':False,'error':'新账号至少 3 位'})
+    if len(new_pass) < 8:
+        return jsonify({'ok':False,'error':'新密码至少 8 位'})
+
+    save_auth(new_user, new_pass)
+    return jsonify({'ok':True})
+
 @app.route('/api/public-info')
 def api_public_info():
     # best-effort public IP from headers
@@ -180,4 +222,4 @@ def stats():
     return jsonify({'date':today,'today':s['today'],'total':s['total']})
 
 if __name__=='__main__':
-    ensure_data(); load_ssl(); app.run('0.0.0.0',5005)
+    ensure_data(); load_ssl(); load_auth(); app.run('0.0.0.0',5005)
